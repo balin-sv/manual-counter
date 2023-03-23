@@ -28,7 +28,7 @@
           type="submit"
           :class="[
             'btn',
-            isFormChecked ? 'btn-primary' : 'btn-secondary disabled',
+            isFormChecked ? 'btn-success' : 'btn-secondary disabled',
           ]"
         >
           {{ !isFormChecked ? "Llena los campos" : "Log in" }}

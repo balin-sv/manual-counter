@@ -1,6 +1,8 @@
 import { createApp, markRaw } from "vue";
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 import { createPinia } from "pinia";
+import "@/assets/main.css";
+
 
 import App from "./App.vue";
 import router from "./router";

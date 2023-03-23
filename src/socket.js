@@ -9,15 +9,12 @@ export const state = reactive({
   barEvents: [],
 });
 
-// "undefined" means the URL will be computed from the `window.location` object
-const URL =
-  process.env.NODE_ENV === "production"
-    ? undefined
-    : `https://ikcount.com/live?atoken=${authStore.getUserToken()}`;
+const URL = `https://ikcount.com/live?atoken=${authStore.getUserToken()}`;
 
 export const socket = io(URL);
 
 socket.on("connect", () => {
+  console.log("Connected to socket.io server");
   state.connected = true;
 });
 
@@ -25,7 +22,7 @@ socket.on("disconnect", () => {
   state.connected = false;
 });
 
-socket.on("foo", (...args) => {
+socket.on("summary", (...args) => {
   state.fooEvents.push(args);
 });
 

@@ -10,20 +10,16 @@ export const useAuthStore = defineStore("auth", {
     getUserToken() {
       return this.accessToken;
     },
-    getUser() {
-      return this.user;
-    },
-    logIn(payload) {
+    logIn(codeString) {
       return new Promise((resolve, reject) => {
         axios
           .post("https://ikcount.com/iklab/api/login", {
-            auth: "Y2xpY2tlcjIuZGVtbzpURVNULjIwMjIjOklLTEFCMDA1",
+            auth: codeString,
             privilegesDetail: true,
           })
           .then((result) => {
             if (result) {
               this.accessToken = result.data.access_token;
-              console.log(this.accessToken);
               resolve(true);
             } else {
               resolve(false);
@@ -33,13 +29,6 @@ export const useAuthStore = defineStore("auth", {
             resolve(false);
             reject(error);
           });
-      });
-    },
-    logOut() {
-      return new Promise((resolve, reject) => {
-        this.user = {};
-        this.userToken = "";
-        resolve(true);
       });
     },
   },

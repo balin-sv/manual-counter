@@ -4,12 +4,23 @@ import axios from "axios";
 export const useAuthStore = defineStore("auth", {
   state: () => ({
     accessToken: "",
+    email: "",
+    userName: "",
   }),
 
-  actions: {
-    getUserToken() {
-      return this.accessToken;
+  getters: {
+    getUserToken: (state) => {
+      return () => state.accessToken;
     },
+    getUserEmail: (state) => {
+      return () => state.email;
+    },
+    getUserName: (state) => {
+      return () => state.userName;
+    },
+  },
+
+  actions: {
     logIn(codeString) {
       return new Promise((resolve, reject) => {
         axios
@@ -20,6 +31,8 @@ export const useAuthStore = defineStore("auth", {
           .then((result) => {
             if (result) {
               this.accessToken = result.data.access_token;
+              this.email = result.data.email;
+              this.userName = result.data.username;
               resolve(true);
             } else {
               resolve(false);

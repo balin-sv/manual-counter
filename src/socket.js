@@ -3,29 +3,26 @@ import { io } from "socket.io-client";
 import { useAuthStore } from "./stores/auth-store";
 const authStore = useAuthStore();
 
-export const state = reactive({
-  connected: false,
-  fooEvents: [],
-  barEvents: [],
-});
+export const useSocketIO = () => {
+  const socket = io(
+    `https://ikcount.com/live?atoken=${authStore.getUserToken()}`
+  );
+  return {
+    socket,
+  };
+};
 
-const URL = `https://ikcount.com/live?atoken=${authStore.getUserToken()}`;
+// export const state = reactive({
+//   connected: false,
+// });
 
-export const socket = io(URL);
+// const URL = `https://ikcount.com/live?atoken=${authStore.getUserToken()}`;
 
-socket.on("connect", () => {
-  console.log("Connected to socket.io server");
-  state.connected = true;
-});
+// export const socket = io(URL, {
+//   autoConnect: false,
+// });
 
-socket.on("disconnect", () => {
-  state.connected = false;
-});
-
-socket.on("summary", (...args) => {
-  state.fooEvents.push(args);
-});
-
-socket.on("bar", (...args) => {
-  state.barEvents.push(args);
-});
+// socket.on("connect", () => {
+//   console.log("Connected to socket.io server");
+//   state.connected = true;
+// });

@@ -20,3 +20,14 @@ onErrorCaptured((err) => {
   console.log(error.value);
 });
 </script>
+
+<style scoped>
+.main-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: beige;
+}
+</style>

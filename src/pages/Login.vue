@@ -6,10 +6,11 @@ import Form from "@/components/Form.vue";
 import { ref, onMounted } from "vue";
 import { useAuthStore } from "@/stores/auth-store.js";
 import { useRouter } from "vue-router";
+import { useNotyf } from "@/composable/useNotyf";
 
 const authStore = useAuthStore();
 const router = useRouter();
-
+const notyf = useNotyf();
 
 const formModel = ref({
   email: {
@@ -47,6 +48,11 @@ const formModel = ref({
 const submit = async (email, password) => {
   const codeString = btoa(`${email}:${password}:IKLAB005`);
   const res = await authStore.logIn(codeString);
-  res ? router.push("/") : console.log("fail");
+  if (res) {
+    router.push("/");
+    notyf.success("Felicidades, has iniciado sesión!");
+  } else {
+    notyf.error("Error en autenticación!");
+  }
 };
 </script>

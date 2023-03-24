@@ -1,7 +1,7 @@
 <template>
-  <form @submit.prevent="test">
+  <form @submit.prevent="onSubmitHandler">
     <div class="form-group row w-50 m-auto">
-      <div v-for="(field, i) in formData" class="mb-3">
+      <div v-for="(field, name, i) in formData" class="mb-3">
         <label :key="i">{{ field.label }}</label>
         <component
           :key="i"
@@ -38,10 +38,7 @@
   </form>
 </template>
 <script setup>
-import { useAuthStore } from "@/stores/auth-store.js";
-import { useRouter } from "vue-router";
-import { ref, onMounted, computed, watch } from "vue";
-import axios from "axios";
+import { computed, watch } from "vue";
 
 const props = defineProps({
   formModel: {
@@ -50,7 +47,6 @@ const props = defineProps({
   },
 });
 const emit = defineEmits(["submit"]);
-
 const formData = computed(() => props.formModel);
 
 watch(
@@ -88,20 +84,13 @@ const isFormChecked = computed(() => {
   return res;
 });
 
-const test = async () => {
+const onSubmitHandler = async () => {
   const payload = {};
   for (const key in formData.value) {
     formData.value[key].isPayload
       ? (payload[key] = formData.value[key].value)
       : null;
   }
-
-  console.log(`${payload.email}:${payload.password}:IKLAB005`);
-
-  //   const codeString = btoa(
-  //     `${payload.email.value}:${payload.password.value}:IKLAB005`
-  //   );
-
   emit("submit", payload.email, payload.password);
 };
 </script>

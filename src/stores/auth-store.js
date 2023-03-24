@@ -29,6 +29,8 @@ export const useAuthStore = defineStore("auth", {
             privilegesDetail: true,
           })
           .then((result) => {
+
+            console.log(result)
             if (result) {
               this.accessToken = result.data.access_token;
               this.email = result.data.email;

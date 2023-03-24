@@ -1,6 +1,4 @@
 <template>
-  <!-- <button class="btn btn-custom btn-success position-absolute top-0 end-0">Log Out</button> -->
-
   <div class="d-flex">
     <Loading v-if="!counter" />
     <div v-if="counter" class="custom-box">
@@ -15,10 +13,10 @@
   </div>
 </template>
 <script setup>
-import { useSocketIO } from "@/socket";
-import Loading from "@/components/Loading.vue";
-import axios from "axios";
 import { onMounted, ref } from "vue";
+import axios from "axios";
+import Loading from "@/components/Loading.vue";
+import { useSocketIO } from "@/socket";
 import { useAuthStore } from "@/stores/auth-store";
 import { useRouter } from "vue-router";
 

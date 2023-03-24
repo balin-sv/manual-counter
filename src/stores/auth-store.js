@@ -3,9 +3,9 @@ import axios from "axios";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
-    accessToken: "",
-    email: "",
-    userName: "",
+    accessToken: null,
+    email: null,
+    userName: null,
   }),
 
   getters: {
@@ -42,6 +42,14 @@ export const useAuthStore = defineStore("auth", {
             resolve(false);
             reject(error);
           });
+      });
+    },
+    logOut() {
+      return new Promise((resolve, reject) => {
+        this.accessToken = null;
+        this.email = null;
+        this.userName = null;
+        resolve(true);
       });
     },
   },

@@ -1,28 +1,45 @@
 <template>
+  <!-- <button class="btn btn-custom btn-success position-absolute top-0 end-0">Log Out</button> -->
+
   <div class="d-flex">
-    <div class="custom-box">
+    <Loading v-if="!counter" />
+    <div v-if="counter" class="custom-box">
       <span>{{ counter }}</span>
     </div>
-    <button class="btn btn-success" @click="test"><span>+</span></button>
+    <button v-if="counter" class="btn btn-custom btn-success" @click="add">
+      <span>+</span>
+    </button>
+    <button v-if="counter" class="btn btn-log-out btn-danger" @click="exit">
+      <span>Exit</span>
+    </button>
   </div>
 </template>
 <script setup>
 import { useSocketIO } from "@/socket";
+import Loading from "@/components/Loading.vue";
 import axios from "axios";
 import { onMounted, ref } from "vue";
 import { useAuthStore } from "@/stores/auth-store";
-const authStore = useAuthStore();
-const counter = ref(null);
+import { useRouter } from "vue-router";
 
 const { socket } = useSocketIO();
 
-socket.on("welcome", (e) => {
-  console.log(e);
+const authStore = useAuthStore();
+const router = useRouter();
+
+const counter = ref(null);
+
+onMounted(() => {
+  socket.on("welcome", (e) => {
+    counter.value = e.current_aforo;
+  });
+});
+
+socket.on("heartbeat", (e) => {
   counter.value = e.current_aforo;
 });
 
-const test = () => {
-  console.log(authStore.getUserToken());
+const add = () => {
   axios
     .post(
       `https://ikcount.com/iklab/ikcount/api/livecommand?atoken=${authStore.getUserToken()}`,
@@ -54,7 +71,13 @@ const test = () => {
       console.log(error);
     });
 };
+
+const exit = async () => {
+  const res = await authStore.logOut();
+  res ? router.push("/login") : console.log("fail");
+};
 </script>
+
 <style scoped>
 .custom-box {
   margin: 0 auto;
@@ -74,13 +97,23 @@ const test = () => {
   color: rgb(56, 49, 49);
 }
 
-.btn {
+.btn-custom {
   margin-top: 15vh;
   margin-left: 100px;
   width: 100px;
   height: 100px;
   border-radius: 50%;
   font-size: 50px;
+  font-weight: 500;
+  color: rgb(56, 49, 49);
+}
+.btn-log-out {
+  margin-top: 15vh;
+  margin-left: 100px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  font-size: 30px;
   font-weight: 500;
   color: rgb(56, 49, 49);
 }

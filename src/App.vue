@@ -1,11 +1,6 @@
 <template>
-  <Suspense timeout="0" v-if="!error">
-    <template #default>
-      <MainLayout> <router-view /></MainLayout>
-    </template>
-    <template #fallback> <p>loading</p> </template>
-  </Suspense>
-  <div v-else><p>error</p></div>
+  <MainLayout> <router-view /></MainLayout>
+  <div v-if="error"><p>error</p></div>
 </template>
 
 <script setup>

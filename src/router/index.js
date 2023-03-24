@@ -19,7 +19,6 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from) => {
-  console.log("in router");
   const authStore = useAuthStore();
   if (!authStore.getUserToken() && to.name == "home") {
     return { name: "login" };

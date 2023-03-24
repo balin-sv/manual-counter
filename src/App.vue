@@ -1,19 +1,10 @@
 <template>
   <MainLayout> <router-view /></MainLayout>
-  <div v-if="error"><p>error</p></div>
 </template>
 
 <script setup>
 import { RouterView } from "vue-router";
-import { ref, onErrorCaptured } from "vue";
 import MainLayout from "@/components/layouts/MainLayout.vue";
-
-const error = ref(null);
-
-onErrorCaptured((err) => {
-  error.value = err;
-  console.log(error.value);
-});
 </script>
 
 <style scoped>
